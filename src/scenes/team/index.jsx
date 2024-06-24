@@ -1,15 +1,36 @@
+import React from 'react';
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import { mockDataDoctors } from "../../data/mockData";
 import Header from "../../components/Header";
+import FavoriteIcon from '@mui/icons-material/Favorite'; // Cardiology
+import PsychologyIcon from '@mui/icons-material/Psychology'; // Neurology
+import ChildCareIcon from '@mui/icons-material/ChildCare'; // Pediatrics
+import FaceIcon from '@mui/icons-material/Face'; // Dermatology
+import VisibilityIcon from '@mui/icons-material/Visibility'; // Ophthalmology
+
+const getSpecialtyIcon = (specialty) => {
+  switch (specialty) {
+    case "cardiology":
+      return <FavoriteIcon color="error" />;
+    case "neurology":
+      return <PsychologyIcon color="primary" />;
+    case "pediatrics":
+      return <ChildCareIcon color="secondary" />;
+    case "dermatology":
+      return <FaceIcon style={{ color: '#ffb74d' }} />;
+    case "ophthalmology":
+      return <VisibilityIcon style={{ color: '#2196f3' }} />;
+    default:
+      return null;
+  }
+};
 
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -19,11 +40,9 @@ const Team = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
+      field: "address",
+      headerName: "Address",
+      flex: 1,
     },
     {
       field: "phone",
@@ -36,31 +55,19 @@ const Team = () => {
       flex: 1,
     },
     {
-      field: "accessLevel",
-      headerName: "Access Level",
+      field: "specialty",
+      headerName: "Specialty",
       flex: 1,
-      renderCell: ({ row: { access } }) => {
+      renderCell: ({ row: { specialty } }) => {
         return (
           <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
+            width="100%"
             display="flex"
-            justifyContent="center"
-            backgroundColor={
-              access === "admin"
-                ? colors.greenAccent[600]
-                : access === "manager"
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
-            }
-            borderRadius="4px"
+            alignItems="center"
           >
-            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "manager" && <SecurityOutlinedIcon />}
-            {access === "user" && <LockOpenOutlinedIcon />}
+            {getSpecialtyIcon(specialty)}
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
+              {specialty}
             </Typography>
           </Box>
         );
@@ -70,7 +77,7 @@ const Team = () => {
 
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Header title="DOCTORS" subtitle="Managing the Doctors List" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -85,7 +92,7 @@ const Team = () => {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.greenAccent[700],
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -93,14 +100,14 @@ const Team = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.greenAccent[700],
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid checkboxSelection rows={mockDataDoctors} columns={columns} />
       </Box>
     </Box>
   );

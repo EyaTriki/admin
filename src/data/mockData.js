@@ -1,4 +1,75 @@
 import { tokens } from "../theme";
+export const mockUsers = [
+  { id: 1, name: "User 1", gender: "male" },
+  { id: 2, name: "User 1", gender: "male" },
+  { id: 3, name: "User 1", gender: "male" },
+  { id: 4, name: "User 1", gender: "male" },
+  { id: 5, name: "User 2", gender: "female" },
+  { id: 6, name: "User 2", gender: "female" },
+  { id: 7, name: "User 2", gender: "female" },
+  { id: 8, name: "User 2", gender: "female" },
+  
+];
+
+export const mockSpecialties = [
+  { specialty: "cardiology", count: 10 },
+  { specialty: "neurology", count: 5 },
+  { specialty: "ophthalmology", count: 8 },
+  { specialty: "pediatrics", count: 2 },
+  { specialty: "dermatology", count: 7 },
+ { specialty: "neurology", count: 3 },
+];
+
+export const mockGenderDistribution = [
+  { name: "Male", value: 20, color: "#0088FE" },
+  { name: "Female", value: 30, color: "#00C49F" }
+];
+
+
+export const mockDataDoctors = [
+  {
+    id: 1,
+    name: "Dr. Eya ",
+    address: "Ksibet el Mediouni",
+    phone: "99 999 999",
+    email: "eya@yahoo.com",
+    specialty: "cardiology",
+  },
+  {
+    id: 2,
+    name: "Dr. Fatma ",
+    address: "Teboulba",
+    phone: "55 555 555",
+    email: "fatma@hotmail.com",
+    specialty: "ophthalmology",
+  },
+  {
+    id: 3,
+    name: "Dr.Yosra ",
+    address: "Monastir",
+    phone: "77 777 7777",
+    email: "yosra@gmail.com",
+    specialty: "pediatrics",
+  },
+  {
+    id: 4,
+    name: "Dr.Mohamed",
+    address: "Sousse",
+    phone: "44 444 444",
+    email: "mohamed@gmail.com",
+    specialty: "dermatology",
+  },
+  {
+    id: 5,
+    name: "Dr.Salah",
+    address: "Bizerte",
+    phone: " 88 888 888",
+    email: "salah@gmail.com",
+    specialty: "neurology",
+  },
+  
+];
+
 
 export const mockDataTeam = [
   {

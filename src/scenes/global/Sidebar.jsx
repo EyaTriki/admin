@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -61,7 +63,7 @@ const Sidebar = () => {
           color: "#868dfb !important",
         },
         "& .pro-menu-item.active": {
-          color: "#6870fa !important",
+          color: "#013148!important",
         },
       }}
     >
@@ -127,21 +129,23 @@ const Sidebar = () => {
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              sx={{ m: "15px 0 5px 20px" }}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Data
-            </Typography>
+            </Typography> */}
             <Item
               title="Doctors"
               to="/team"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              sx={{ m: "15px 0 5px 20px" }}
             />
             <Item
               title="Users "
@@ -149,39 +153,43 @@ const Sidebar = () => {
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              sx={{ m: "15px 0 5px 20px" }}
             />
-            <Item
-              title="Invoices Balances"
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+         
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Pages
-            </Typography>
+            </Typography> */}
             <Item
-              title="Profile Form"
+              title="Create Accounts"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              sx={{ m: "15px 0 5px 20px" }}
             />
-            <Item
-              title="Calendar"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
+            {/* <Item
+              title="Notifications"
+              to="/bar"
+              icon={<NotificationsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            /> 
+               <Item
+              title="Emergency Service"
+              to="/invoices"
+              icon={<MedicalServicesOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="FAQ Page"
               to="/faq"
+              
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -196,7 +204,8 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Bar Chart"
-              to="/bar"
+              
+                to="/calendar"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -221,7 +230,7 @@ const Sidebar = () => {
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
           <MenuItem
             icon={<LogoutIcon />}
             style={{ marginTop: 'auto', color: colors.grey[100] }} // Adjust styling as needed

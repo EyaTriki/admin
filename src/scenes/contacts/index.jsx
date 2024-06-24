@@ -21,7 +21,7 @@ const Contacts = () => {
       setLoading(true);
       setError('');
       try {
-        const response = await axios.get('http://192.168.234.176:5000/get-users', {
+        const response = await axios.get('http://192.168.1.13:5000/get-users', {
           headers: { 'Authorization': `Bearer ${userToken}` }
         });
         setPatients(response.data);
@@ -43,7 +43,7 @@ const Contacts = () => {
   const handleDelete = (id) => {
     // Confirmation de suppression
     if (window.confirm('Are you sure you want to delete this user?')) {
-      axios.delete(`http://192.168.234.176:5000/deleteUser/${id}`, {
+      axios.delete(`http://192.168.1.13:5000/deleteUser/${id}`, {
         headers: { 'Authorization': `Bearer ${userToken}` }
       })
       .then(response => {
@@ -106,7 +106,7 @@ const Contacts = () => {
 
   return (
     <Box m="20px">
-      <Header title="ALL USERS" subtitle="List of users" />
+      <Header title=" USERS" subtitle="Managing the Users List" />
       {loading ? (
         <Box display="flex" justifyContent="center" alignItems="center" height="75vh">
           Loading...
@@ -118,9 +118,9 @@ const Contacts = () => {
           "& .MuiDataGrid-root": { border: "none" },
           "& .MuiDataGrid-cell": { borderBottom: "none" },
           "& .name-column--cell": { color: colors.greenAccent[300] },
-          "& .MuiDataGrid-columnHeaders": { backgroundColor: colors.blueAccent[700], borderBottom: "none" },
+          "& .MuiDataGrid-columnHeaders": { backgroundColor: colors.greenAccent[700], borderBottom: "none" },
           "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[400] },
-          "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
+          "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.greenAccent[700] },
           "& .MuiCheckbox-root": { color: `${colors.greenAccent[200]} !important` },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": { color: `${colors.grey[100]} !important` },
         }}>

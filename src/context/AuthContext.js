@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(true);
     try {
       setIsLoading(false);
-      const response = await axios.post('http://192.168.234.176:5000/signin', { email, password });
+      const response = await axios.post('http://192.168.1.13:5000/signin', { email, password });
       const { token, refreshToken } = response.data;
       console.log(response.data)
       setUserInfo(response.data.user); 
