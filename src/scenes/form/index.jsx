@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-  Box, Button, TextField, Snackbar, Alert, MenuItem
+  Box, Button, TextField, Snackbar, Alert, MenuItem, Select, InputLabel, FormControl
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-
 import Header from "../../components/Header";
 import { useAuth } from "../../context/AuthContext";
+import axios from 'axios';
+import { BASE_URL } from '../../config';
 
 const Form = () => {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -14,6 +15,14 @@ const Form = () => {
   const [snackbarSeverity, setSnackbarSeverity] = React.useState('info');
   const { userToken } = useAuth();
   const [role, setRole] = React.useState("");
+
+  const specialities = [
+    "cardiology", "neurology", "pediatrics", "dermatology", "ophthalmology",
+    "dentist", "gynecologist", "laboratory", "veterinary", "generalist",
+    "orthopedist", "orl", "sexologist", "cardiologist", "gastro", 
+    "rheumatologist", "neurologist", "pulmonologist", "nutritionist", 
+    "pedopsechiatrist", "diabetologist", "nephrologist", "other"
+  ];
 
   const handleOpenSnackbar = (message, severity) => {
     setSnackbarMessage(message);
@@ -29,46 +38,65 @@ const Form = () => {
   };
 
   const handleFormSubmit = async (values, { setSubmitting, resetForm }) => {
+    const url = role === 'medecin' ? 'create-doctor' : 'create-Patient';
+  
     try {
-      console.log('User created successfully');
+      const response = await axios.post(`${BASE_URL}/${url}`, values, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      });
       handleOpenSnackbar('User created successfully', 'success');
       resetForm();
     } catch (error) {
-      console.error('Failed to create user:', error.message);
       handleOpenSnackbar('Failed to create user', 'error');
     } finally {
       setSubmitting(false);
     }
   };
-
+  
   const initialValues = {
-    firstName: "",
-    lastName: "",
+    fullname: "",
     email: "",
-    address: "",
-    gender: "",
     password: "",
     role: "",
-    speciality: ""
+    specialty: "",
+    address: "",
+    phoneNumber: "",
+    officeHours: "",
+    bio: ""
   };
 
   const validationSchema = yup.object().shape({
-    firstName: yup.string().required("Required"),
-    lastName: yup.string().required("Required"),
+    fullname: yup.string().required("Required"),
     email: yup.string().email("Invalid email").required("Required"),
-    address: yup.string(),
-    gender: yup.string().required("Required"),
     password: yup.string().min(8, "Password must be at least 8 characters").required("Required"),
     role: yup.string().required("Required"),
-    speciality: yup.string().when("role", {
+    specialty: yup.string().when("role", {
       is: "medecin",
       then: yup.string().required("Speciality is required for doctors"),
+    }),
+    address: yup.string().when("role", {
+      is: "medecin",
+      then: yup.string().required("Address is required for doctors"),
+    }),
+    phoneNumber: yup.string().when("role", {
+      is: "medecin",
+      then: yup.string().required("Phone number is required for doctors"),
+    }),
+    officeHours: yup.string().when("role", {
+      is: "medecin",
+      then: yup.string().required("Working hours are required for doctors"),
+    }),
+    bio: yup.string().when("role", {
+      is: "medecin",
+      then: yup.string().required("Bio is required for doctors"),
     }),
   });
 
   return (
     <Box m="20px">
-      <Header title="CREATE ACCOUNT" subtitle="Create a New User/Doctor Account" />
+      <Header title="CREATE ACCOUNT" subtitle="Create a New Patient/Doctor Account" />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -81,30 +109,18 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="First Name"
+                label="Full Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
+                value={values.fullname}
+                name="fullname"
+                error={touched.fullname && !!errors.fullname}
+                helperText={touched.fullname && errors.fullname}
               />
               <TextField
                 fullWidth
                 variant="filled"
-                type="text"
-                label="Last Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-              />
-               <TextField
-                fullWidth
-                variant="filled"
-                type="text"
+                type="email"
                 label="Email"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -113,10 +129,10 @@ const Form = () => {
                 error={touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
               />
-               <TextField
+              <TextField
                 fullWidth
                 variant="filled"
-                type="text"
+                type="password"
                 label="Password"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -142,21 +158,73 @@ const Form = () => {
               >
                 <MenuItem value="">Select a Role</MenuItem>
                 <MenuItem value="medecin">Doctor</MenuItem>
-                <MenuItem value="patient">User</MenuItem>
+                <MenuItem value="patient">Patient</MenuItem>
               </TextField>
               {role === "medecin" && (
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Speciality"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.speciality}
-                  name="speciality"
-                  error={touched.speciality && !!errors.speciality}
-                  helperText={touched.speciality && errors.speciality}
-                />
+                <>
+                  <FormControl fullWidth variant="filled">
+                    <InputLabel>Speciality</InputLabel>
+                    <Select
+                      name="specialty"
+                      value={values.specialty}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={touched.specialty && !!errors.specialty}
+                    >
+                      {specialities.map((specialty, index) => (
+                        <MenuItem key={index} value={specialty}>{specialty}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    fullWidth
+                    variant="filled"
+                    type="text"
+                    label="Address"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.address}
+                    name="address"
+                    error={touched.address && !!errors.address}
+                    helperText={touched.address && errors.address}
+                  />
+                  <TextField
+                    fullWidth
+                    variant="filled"
+                    type="text"
+                    label="Phone Number"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.phoneNumber}
+                    name="phoneNumber"
+                    error={touched.phoneNumber && !!errors.phoneNumber}
+                    helperText={touched.phoneNumber && errors.phoneNumber}
+                  />
+                  <TextField
+                    fullWidth
+                    variant="filled"
+                    type="text"
+                    label="Working Hours"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.officeHours}
+                    name="officeHours"
+                    error={touched.officeHours && !!errors.officeHours}
+                    helperText={touched.officeHours && errors.officeHours}
+                  />
+                  <TextField
+                    fullWidth
+                    variant="filled"
+                    type="text"
+                    label="Bio"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.bio}
+                    name="bio"
+                    error={touched.bio && !!errors.bio}
+                    helperText={touched.bio && errors.bio}
+                  />
+                </>
               )}
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">

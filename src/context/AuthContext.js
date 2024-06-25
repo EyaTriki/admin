@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode'; // Assurez-vous que l'importation est correcte.
-
+import { BASE_URL } from '../config';
 const AuthContext = createContext();
 
 export const useAuth = () => React.useContext(AuthContext);
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     const refreshToken = async () => {
       setIsLoading(true);
       try {
-        const res = await axios.post('http://192.168.1.13:5000/refresh', {
+        const res = await axios.post(`${BASE_URL}/refresh`, {
           token: localStorage.getItem('refresh_token')
         });
         const { token, refreshToken } = res.data;
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(true);
     try {
       setIsLoading(false);
-      const response = await axios.post('http://192.168.1.13:5000/signin', { email, password });
+      const response = await axios.post(`${BASE_URL}/signin`, { email, password });
       const { token, refreshToken } = response.data;
       console.log(response.data)
       setUserInfo(response.data.user); 

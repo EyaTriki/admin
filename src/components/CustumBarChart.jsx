@@ -7,7 +7,7 @@ const CustumBarChart = ({ data, dataKey }) => (
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
-      <Bar dataKey={dataKey} fill="#0088FE" />
+      <Bar dataKey={dataKey} fill="#0da3d6" />
     </BarChart>
   </ResponsiveContainer>
 );

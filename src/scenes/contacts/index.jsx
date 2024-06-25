@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, IconButton, useTheme } from "@mui/material";
+import { BASE_URL } from '../../config';
+import { Box, IconButton, useTheme, Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useAuth } from '../../context/AuthContext';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 
 const Contacts = () => {
   const theme = useTheme();
@@ -15,13 +15,18 @@ const Contacts = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { userToken } = useAuth();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('info');
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const [patientToDelete, setPatientToDelete] = useState(null);
 
   useEffect(() => {
     const fetchPatients = async () => {
       setLoading(true);
       setError('');
       try {
-        const response = await axios.get('http://192.168.1.13:5000/get-users', {
+        const response = await axios.get(`${BASE_URL}/get-users`, {
           headers: { 'Authorization': `Bearer ${userToken}` }
         });
         setPatients(response.data);
@@ -40,29 +45,41 @@ const Contacts = () => {
     }
   }, [userToken]);
 
-  const handleDelete = (id) => {
-    // Confirmation de suppression
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      axios.delete(`http://192.168.1.13:5000/deleteUser/${id}`, {
+  const handleOpenSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const handleDeleteClick = (id) => {
+    setPatientToDelete(id);
+    setOpenConfirmDialog(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      await axios.delete(`${BASE_URL}/deletePatient/${patientToDelete}`, {
         headers: { 'Authorization': `Bearer ${userToken}` }
-      })
-      .then(response => {
-        // Affichage d'une confirmation ou d'une mise à jour de l'état
-        console.log(response.data.message);
-        // Filtrer le tableau pour enlever l'utilisateur supprimé
-        setPatients(prevPatients => prevPatients.filter(user => user._id !== id));
-      })
-      .catch(error => {
-        console.error('Failed to delete user:', error);
-        alert('Failed to delete user: ' + (error.response?.data.message || error.message));
       });
+      setPatients(patients.filter(patient => patient._id !== patientToDelete));
+      handleOpenSnackbar('Patient deleted successfully', 'success');
+    } catch (error) {
+      console.error('Failed to delete patient:', error);
+      handleOpenSnackbar('Failed to delete patient', 'error');
+    } finally {
+      setOpenConfirmDialog(false);
     }
   };
-  
 
-  const handleEdit = (id) => {
-    // Implement the edit functionality here
-    console.log('Editing user with id:', id);
+  const handleCancelDelete = () => {
+    setOpenConfirmDialog(false);
   };
 
   const formatDate = (value) => {
@@ -72,11 +89,10 @@ const Contacts = () => {
     return new Date(value).toLocaleDateString();
   };
   
-  
   const columns = [
     { field: "_id", headerName: "Register ID", flex: 1.5 },
     { field: "fullname", headerName: "Name", flex: 1 },
-    { field: "gender", headerName: "Gender", flex: 1},
+    { field: "gender", headerName: "Gender", flex: 1 },
     {
       field: "birthdate",
       headerName: "Birthdate",
@@ -86,17 +102,13 @@ const Contacts = () => {
     },
     { field: "email", headerName: "Email", flex: 1.5 },
     { field: "location", headerName: "Address", flex: 1 },
-   
     {
       field: "actions",
       headerName: "More",
       flex: 1,
       renderCell: (params) => (
         <Box>
-          <IconButton onClick={() => handleEdit(params.id)}  sx={{ color: colors.greenAccent[600] }}>
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(params.id)} color="error">
+          <IconButton onClick={() => handleDeleteClick(params.id)} color="error">
             <DeleteIcon />
           </IconButton>
         </Box>
@@ -106,7 +118,7 @@ const Contacts = () => {
 
   return (
     <Box m="20px">
-      <Header title=" USERS" subtitle="Managing the Users List" />
+      <Header title="PATIENTS" subtitle="Managing the Patients List" />
       {loading ? (
         <Box display="flex" justifyContent="center" alignItems="center" height="75vh">
           Loading...
@@ -132,6 +144,29 @@ const Contacts = () => {
           />
         </Box>
       )}
+
+      <Dialog open={openConfirmDialog} onClose={handleCancelDelete}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this patient? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} color="secondary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

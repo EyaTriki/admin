@@ -40,10 +40,10 @@ function AppRoutes() {
     <Routes>
      
       <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-      <Route path="/team" element={<PrivateRoute><Team /></PrivateRoute>} />
-      <Route path="/contacts" element={<PrivateRoute><Contacts /></PrivateRoute>} />
+      <Route path="/doctors" element={<PrivateRoute><Team /></PrivateRoute>} />
+      <Route path="/patients" element={<PrivateRoute><Contacts /></PrivateRoute>} />
       <Route path="/invoices" element={<PrivateRoute><Invoices /></PrivateRoute>} />
-      <Route path="/form" element={<PrivateRoute><Form /></PrivateRoute>} />
+      <Route path="/addUser" element={<PrivateRoute><Form /></PrivateRoute>} />
       
       <Route path="/bar" element={<PrivateRoute><Bar /></PrivateRoute>} />
       <Route path="/pie" element={<PrivateRoute><Pie /></PrivateRoute>} />

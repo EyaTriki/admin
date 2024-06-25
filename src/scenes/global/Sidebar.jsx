@@ -6,21 +6,13 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import Diversity1Icon from '@mui/icons-material/Diversity1';
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import LogoutIcon from "@mui/icons-material/Logout"; // Import logout icon
 import { useAuth } from '../../context/AuthContext';
-
+import logo from "../../assets/logovff.jpg";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -60,10 +52,10 @@ const Sidebar = () => {
           padding: "5px 35px 5px 20px !important",
         },
         "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
+          color: "#18ba91 !important",
         },
         "& .pro-menu-item.active": {
-          color: "#013148!important",
+          color: "#0da3d6 !important",
         },
       }}
     >
@@ -78,6 +70,19 @@ const Sidebar = () => {
               color: colors.grey[100],
             }}
           >
+            {/* 
+            {!isCollapsed && (
+            <Box display="flex" justifyContent="center" alignItems="center" mb="20px">
+              <img
+                alt="logo"
+                width="100px"
+                height="100px"
+                src={logo}
+                style={{ cursor: "pointer" }}
+              />
+            </Box>
+          )} */}
+          
             {!isCollapsed && (
               <Box
                 display="flex"
@@ -94,7 +99,7 @@ const Sidebar = () => {
               </Box>
             )}
           </MenuItem>
-
+           
           {!isCollapsed && userInfo && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -141,16 +146,16 @@ const Sidebar = () => {
             </Typography> */}
             <Item
               title="Doctors"
-              to="/team"
-              icon={<PeopleOutlinedIcon />}
+              to="/doctors"
+              icon={<Diversity1Icon />}
               selected={selected}
               setSelected={setSelected}
               sx={{ m: "15px 0 5px 20px" }}
             />
             <Item
               title="Users "
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
+              to="/patients"
+              icon={<PeopleOutlinedIcon/>}
               selected={selected}
               setSelected={setSelected}
               sx={{ m: "15px 0 5px 20px" }}
@@ -166,8 +171,8 @@ const Sidebar = () => {
             </Typography> */}
             <Item
               title="Create Accounts"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
+              to="/addUser"
+              icon={<PersonAddAltIcon />}
               selected={selected}
               setSelected={setSelected}
               sx={{ m: "15px 0 5px 20px" }}

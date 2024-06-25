@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText, Box, Typography, IconButton, Button } fro
 import WarningIcon from '@mui/icons-material/Warning';
 
 const notifications = [
-  { id: 1, message: "Urgent", timestamp: "2024-06-10 10:00:00", content: "User 123456 has an urgent health issue." },
+  { id: 1, message: "Emergency", timestamp: "2024-06-10 10:00:00", content: "User 123456 has an urgent health issue." },
 ];
 
 const NotificationList = () => {
