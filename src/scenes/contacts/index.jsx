@@ -104,7 +104,7 @@ const Contacts = () => {
     { field: "location", headerName: "Address", flex: 1 },
     {
       field: "actions",
-      headerName: "More",
+      headerName: "Delete",
       flex: 1,
       renderCell: (params) => (
         <Box>
@@ -118,7 +118,7 @@ const Contacts = () => {
 
   return (
     <Box m="20px">
-      <Header title="PATIENTS" subtitle="Managing the Patients List" />
+      <Header title="USERS" subtitle="Managing the Users List" />
       {loading ? (
         <Box display="flex" justifyContent="center" alignItems="center" height="75vh">
           Loading...

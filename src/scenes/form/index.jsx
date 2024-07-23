@@ -17,11 +17,9 @@ const Form = () => {
   const [role, setRole] = React.useState("");
 
   const specialities = [
-    "cardiology", "neurology", "pediatrics", "dermatology", "ophthalmology",
-    "dentist", "gynecologist", "laboratory", "veterinary", "generalist",
-    "orthopedist", "orl", "sexologist", "cardiologist", "gastro", 
-    "rheumatologist", "neurologist", "pulmonologist", "nutritionist", 
-    "pedopsechiatrist", "diabetologist", "nephrologist", "other"
+    'Cardiologist','Psychiatrist',"Dentist", "Gynecologist", "Laboratory", "Veterinarian",
+    'Gastroenterologist','ENT','Orthopedist','Ophthalmologist','Dermatologist','Sexologist',"General Practitioner",
+     'Nephrologist','Diabetologist','Child Psychiatrist','Nutritionist', 'Pulmonologist','Neurologist','Rheumatologist','Pediatrician', "other"
   ];
 
   const handleOpenSnackbar = (message, severity) => {
@@ -229,7 +227,7 @@ const Form = () => {
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained" disabled={isSubmitting}>
-                Create New User
+                Create
               </Button>
             </Box>
           </form>

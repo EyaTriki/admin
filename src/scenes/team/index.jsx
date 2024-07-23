@@ -80,7 +80,7 @@ const Team = () => {
       email: doctor.email,
       address: doctor.address,
       phoneNumber: doctor.phoneNumber,
-     // specialty: doctor.specialty,
+      //specialty: doctor.specialty,
       bio: doctor.bio,
       officeHours: doctor.officeHours
     });
@@ -225,28 +225,28 @@ const Team = () => {
           onChange={handleSpecialtyChange}
         >
           <MenuItem value="">All Specialties</MenuItem>
-          <MenuItem value="cardiology">Cardiology</MenuItem>
-          <MenuItem value="neurology">Neurology</MenuItem>
-          <MenuItem value="pediatrics">Pediatrics</MenuItem>
-          <MenuItem value="dermatology">Dermatology</MenuItem>
-          <MenuItem value="ophthalmology">Ophthalmology</MenuItem>
-          <MenuItem value="dentist">Dentist</MenuItem>
-          <MenuItem value="gynecologist">Gynecologist</MenuItem>
-          <MenuItem value="laboratory">Laboratory</MenuItem>
-          <MenuItem value="veterinary">Veterinary</MenuItem>
-          <MenuItem value="generalist">Generalist</MenuItem>
-          <MenuItem value="orthopedist">Orthopedist</MenuItem>
-          <MenuItem value="orl">ORL</MenuItem>
-          <MenuItem value="sexologist">Sexologist</MenuItem>
-          <MenuItem value="cardiologist">Cardiologist</MenuItem>
-          <MenuItem value="gastro">Gastroenterologist</MenuItem>
-          <MenuItem value="rheumatologist">Rheumatologist</MenuItem>
-          <MenuItem value="neurologist">Neurologist</MenuItem>
-          <MenuItem value="pulmonologist">Pulmonologist</MenuItem>
-          <MenuItem value="nutritionist">Nutritionist</MenuItem>
-          <MenuItem value="pedopsechiatrist">Pedopsychiatrist</MenuItem>
-          <MenuItem value="diabetologist">Diabetologist</MenuItem>
-          <MenuItem value="nephrologist">Nephrologist</MenuItem>
+          <MenuItem value="Dentist">Dentist</MenuItem>
+<MenuItem value="Gynecologist">Gynecologist</MenuItem>
+<MenuItem value="Laboratory">Laboratory</MenuItem>
+<MenuItem value="Veterinarian">Veterinarian</MenuItem>
+<MenuItem value="General Practitioner">General Practitioner</MenuItem>
+<MenuItem value="Sexologist">Sexologist</MenuItem>
+<MenuItem value="Dermatologist">Dermatologist</MenuItem>
+<MenuItem value="Ophthalmologist">Ophthalmologist</MenuItem>
+<MenuItem value="Orthopedist">Orthopedist</MenuItem>
+<MenuItem value="ENT">ENT</MenuItem>
+<MenuItem value="Psychiatrist">Psychiatrist</MenuItem>
+<MenuItem value="Cardiologist">Cardiologist</MenuItem>
+<MenuItem value="Gastroenterologist">Gastroenterologist</MenuItem>
+<MenuItem value="Pediatrician">Pediatrician</MenuItem>
+<MenuItem value="Rheumatologist">Rheumatologist</MenuItem>
+<MenuItem value="Neurologist">Neurologist</MenuItem>
+<MenuItem value="Pulmonologist">Pulmonologist</MenuItem>
+<MenuItem value="Nutritionist">Nutritionist</MenuItem>
+<MenuItem value="Child Psychiatrist">Child Psychiatrist</MenuItem>
+<MenuItem value="Diabetologist">Diabetologist</MenuItem>
+<MenuItem value="Nephrologist">Nephrologist</MenuItem>
+
           <MenuItem value="other">Other</MenuItem>
         </Select>
       </FormControl>
