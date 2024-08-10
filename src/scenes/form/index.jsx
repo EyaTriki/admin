@@ -94,7 +94,7 @@ const Form = () => {
 
   return (
     <Box m="20px">
-      <Header title="CREATE ACCOUNT" subtitle="Create a New Patient/Doctor Account" />
+      <Header title="CREATE ACCOUNT" subtitle="Create a New User / Doctor Account" />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -226,7 +226,11 @@ const Form = () => {
               )}
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained" disabled={isSubmitting}>
+              <Button type="submit" color="secondary" variant="contained" disabled={isSubmitting} sx={{
+              color: '#FFFFFF', // Couleur du texte
+              fontSize: '15px', // Taille du texte
+              fontWeight: 'bold',
+            }} >
                 Create
               </Button>
             </Box>

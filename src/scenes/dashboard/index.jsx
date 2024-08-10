@@ -8,7 +8,7 @@ import CustumPieChart from "../../components/CustumPieChart";
 import StatCard from "../../components/StatCard";
 import Legend from "../../components/Legend";
 import GroupIcon from '@mui/icons-material/Group';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import axios from 'axios';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import { BASE_URL } from '../../config';
@@ -20,6 +20,7 @@ const Dashboard = () => {
   const [doctorCount, setDoctorCount] = useState(0);
   const [patientCount, setPatientCount] = useState(0);
   const [genderDistribution, setGenderDistribution] = useState([]);
+  const [averageRating, setAverageRating] = useState(0); // Nouvelle ligne pour le rating
   const { userToken } = useAuth();
 
   const getColorByGender = (gender) => {
@@ -31,6 +32,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setAverageRating(4.2)
       try {
         const specialtiesResponse = await axios.get(`${BASE_URL}/stats/doctors-by-specialty`, {
           headers: { Authorization: `Bearer ${userToken}` }
@@ -58,6 +60,12 @@ const Dashboard = () => {
           value: g.count,
           color: getColorByGender(g._id)
         })));
+
+        const ratingResponse = await axios.get(`${BASE_URL}/stats/rating`, {
+          headers: { Authorization: `Bearer ${userToken}` }
+        });
+        setAverageRating(ratingResponse.data.averageRating); // Nouvelle ligne pour le rating
+
       } catch (error) {
         console.error('Failed to fetch data:', error);
       }
@@ -77,6 +85,10 @@ const Dashboard = () => {
             variant="contained"
             color="secondary"
             startIcon={<DownloadOutlinedIcon />}
+            sx={{
+              color: '#FFFFFF', // Couleur du texte
+              fontSize: '14px', // Taille du texte
+            }}
           >
             Download Reports
           </Button>
@@ -125,6 +137,13 @@ const Dashboard = () => {
                 title="Total Patients"
                 number={patientCount}
                 icon={<GroupIcon />}
+              />
+            </Grid>
+            <Grid item> 
+              <StatCard
+                title="Average Rating"
+                number={averageRating.toFixed(2)}
+                icon={<StarOutlineIcon />}
               />
             </Grid>
           </Grid>

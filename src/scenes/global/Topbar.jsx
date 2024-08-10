@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, IconButton, useTheme, Menu, MenuItem, InputBase } from "@mui/material";
+import { Box, IconButton, useTheme, Menu, MenuItem, InputBase, Badge } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -17,9 +17,11 @@ const Topbar = () => {
 
   const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
   const [settingsAnchorEl, setSettingsAnchorEl] = useState(null);
+  const [notificationCount, setNotificationCount] = useState(3); // Supposons qu'il y ait 3 notifications non lues
 
   const handleNotificationClick = (event) => {
     setNotificationAnchorEl(event.currentTarget);
+    setNotificationCount(0); // Réinitialiser le compteur de notifications une fois cliqué
   };
 
   const handleNotificationClose = () => {
@@ -58,7 +60,9 @@ const Topbar = () => {
           )}
         </IconButton>
         <IconButton onClick={handleNotificationClick}>
-          <NotificationsOutlinedIcon />
+          <Badge color="error" variant="dot" invisible={notificationCount === 0}>
+            <NotificationsOutlinedIcon />
+          </Badge>
         </IconButton>
         <Menu
           anchorEl={notificationAnchorEl}
