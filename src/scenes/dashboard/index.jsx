@@ -32,7 +32,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setAverageRating(4.2)
       try {
         const specialtiesResponse = await axios.get(`${BASE_URL}/stats/doctors-by-specialty`, {
           headers: { Authorization: `Bearer ${userToken}` }
@@ -41,17 +40,17 @@ const Dashboard = () => {
           name: s._id,
           count: s.count
         })));
-
+  
         const doctorCountResponse = await axios.get(`${BASE_URL}/stats/doctor-count`, {
           headers: { Authorization: `Bearer ${userToken}` }
         });
         setDoctorCount(doctorCountResponse.data.doctorCount);
-
+  
         const patientCountResponse = await axios.get(`${BASE_URL}/stats/patient-count`, {
           headers: { Authorization: `Bearer ${userToken}` }
         });
         setPatientCount(patientCountResponse.data.patientCount);
-
+  
         const genderDistributionResponse = await axios.get(`${BASE_URL}/stats/patient-gender`, {
           headers: { Authorization: `Bearer ${userToken}` }
         });
@@ -60,19 +59,26 @@ const Dashboard = () => {
           value: g.count,
           color: getColorByGender(g._id)
         })));
-
-        const ratingResponse = await axios.get(`${BASE_URL}/stats/rating`, {
+  
+        const ratingResponse = await axios.get(`${BASE_URL}/average-rating`, {
           headers: { Authorization: `Bearer ${userToken}` }
         });
-        setAverageRating(ratingResponse.data.averageRating); // Nouvelle ligne pour le rating
-
+        console.log("Rating Response:", ratingResponse.data);  // Always good to log the raw response for debugging
+        const average = parseFloat(ratingResponse.data.averageRating);
+        if (!isNaN(average)) {
+          setAverageRating(average.toFixed(2));  // This should only run if average is a number
+        } else {
+          console.error('Received non-numeric average rating:', ratingResponse.data.averageRating);
+          setAverageRating('N/A');  // Handle non-numeric responses
+        }
       } catch (error) {
-        console.error('Failed to fetch data:', error);
+        console.error('Failed to fetch average rating:', error);
+        setAverageRating('Error fetching rating');
       }
     };
-
     fetchData();
   }, [userToken]);
+  
 
   return (
     <Box m="20px">
@@ -140,12 +146,14 @@ const Dashboard = () => {
               />
             </Grid>
             <Grid item> 
-              <StatCard
-                title="Average Rating"
-                number={averageRating.toFixed(2)}
-                icon={<StarOutlineIcon />}
-              />
-            </Grid>
+  <StatCard
+    title="Average Rating"
+    number={typeof averageRating === 'number' ? averageRating.toFixed(2) : averageRating}
+    icon={<StarOutlineIcon />}
+  />
+</Grid>
+
+            
           </Grid>
         </Grid>
       </Grid>
